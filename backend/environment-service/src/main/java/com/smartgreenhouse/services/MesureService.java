@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.smartgreenhouse.Enum.ParametreType;
 import com.smartgreenhouse.entities.Mesure;
 import com.smartgreenhouse.entities.Parametre;
+import com.smartgreenhouse.event.MeasurementEventPublisher;
 import com.smartgreenhouse.repositories.MesureRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 public class MesureService {
 	private final MesureRepository mesureRepository;
     private final ParametreService parametreService;
+    private final MeasurementEventPublisher eventPublisher;
 
     public Mesure enregistrerMesure(ParametreType type, Double valeur) {
 
@@ -28,7 +30,15 @@ public class MesureService {
                 .dateMesure(LocalDateTime.now())
                 .build();
 
-        return mesureRepository.save(mesure);
+        Mesure savedMesure = mesureRepository.save(mesure);
+
+        boolean alert = valeur < parametre.getSeuilMin()
+                || valeur > parametre.getSeuilMax();
+
+   // 🔔 Publication événement
+   eventPublisher.publish(savedMesure, alert);
+
+   return savedMesure;
     }
 
     public List<Mesure> getMesuresByParametre(Long parametreId) {
