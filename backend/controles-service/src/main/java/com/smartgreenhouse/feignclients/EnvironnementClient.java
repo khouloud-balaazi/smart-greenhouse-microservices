@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.smartgreenhouse.entities.ParametreDTO;
-@FeignClient(name = "environment-service")
+@FeignClient(name = "environment-service" ,url = "http://localhost:8089")
 public interface EnvironnementClient {
 
-    @GetMapping("/api/parametres")
+    @GetMapping("/environment-service/api/parametres")
     List<ParametreDTO> getAllParametres();
 
-    @GetMapping("/api/parametres/{id}")
+    @GetMapping("/environment-service/api/parametres/{id}")
     ParametreDTO getParametreById(@PathVariable("id") Long id);
 }

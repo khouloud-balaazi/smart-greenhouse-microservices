@@ -29,4 +29,9 @@ public class ParametreController {
     public List<Parametre> getAll() {
         return parametreService. getAllParametres();
     }
+    
+    @GetMapping("/{id}")
+    public Parametre getById(@PathVariable Long id) {
+        return parametreService.getById(id);
+    }
 }

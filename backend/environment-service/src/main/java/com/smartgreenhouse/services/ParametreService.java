@@ -28,4 +28,9 @@ public class ParametreService {
                 .orElseThrow(() ->
                         new IllegalArgumentException("Parametre not found for type: " + type));
     }
+    public Parametre getById(Long id) {
+        return parametreRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Parametre not found"));
+    }
+
 }

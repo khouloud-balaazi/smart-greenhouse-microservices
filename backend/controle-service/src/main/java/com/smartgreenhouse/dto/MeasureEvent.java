@@ -2,18 +2,14 @@ package com.smartgreenhouse.dto;
 
 import java.time.LocalDateTime;
 
-import com.smartgreenhouse.Enum.ParametreType;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+import com.smartgreenhouse.enums.ParametreType;
 //communication entre services
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-
 public class MeasureEvent {
 
 	private ParametreType type;      
