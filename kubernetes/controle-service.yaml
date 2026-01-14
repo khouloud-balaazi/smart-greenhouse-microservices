@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: controle-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: controle-service
+  template:
+    metadata:
+      labels:
+        app: controle-service
+    spec:
+      containers:
+        - name: controle-service
+          image: controle-service:latest
+          ports:
+            - containerPort: 8088
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: controle-service
+spec:
+  selector:
+    app: controle-service
+  ports:
+    - port: 8088

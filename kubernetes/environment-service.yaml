@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: environment-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: environment-service
+  template:
+    metadata:
+      labels:
+        app: environment-service
+    spec:
+      containers:
+        - name: environment-service
+          image: environment-service:latest
+          ports:
+            - containerPort: 8089
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: environment-service
+spec:
+  selector:
+    app: environment-service
+  ports:
+    - port: 8089
