@@ -1,0 +1,43 @@
+<h2>Gestion des Équipements</h2>
+
+<div class="form">
+  <label>Type</label>
+  <select [(ngModel)]="newEquip.type">
+    <option value="">-- Sélectionner --</option>
+    <option *ngFor="let t of types" [value]="t">{{ t }}</option>
+  </select>
+
+  <label>État</label>
+  <select [(ngModel)]="newEquip.etat">
+    <option *ngFor="let e of etats" [value]="e">{{ e }}</option>
+  </select>
+
+  <button (click)="addEquipement()">Ajouter</button>
+</div>
+
+<hr>
+
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>État</th>
+      <th>Dernière action</th>
+      <th>Modifier état</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let e of equipements">
+      <td>{{ e.type }}</td>
+      <td>{{ e.etat }}</td>
+      <td>{{ e.derniereAction ? (e.derniereAction | date:'short') : '-' }}</td>
+      <td>
+    <select [value]="e.etat" (change)="onEtatChange(e, $event)">
+  <option *ngFor="let et of etats" [value]="et">{{ et }}</option>
+</select>
+
+
+      </td>
+    </tr>
+  </tbody>
+</table>

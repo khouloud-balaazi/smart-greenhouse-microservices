@@ -1,0 +1,44 @@
+.form {
+  margin-bottom: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+label {
+  margin-right: 5px;
+}
+
+select, input, button {
+  padding: 6px 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+button {
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0d47a1;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
+}
+
+th {
+  background-color: #f2f2f2;
+}

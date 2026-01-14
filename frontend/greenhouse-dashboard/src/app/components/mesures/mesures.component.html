@@ -1,0 +1,45 @@
+<h2>Mesures Environnement</h2>
+
+<!-- Formulaire pour ajouter une mesure -->
+<h2>Ajouter une Mesure</h2>
+<div class="form">
+  <label>Type Paramètre</label>
+  <select [(ngModel)]="newMesure.type">
+    <option value="">-- Sélectionner --</option>
+    <option *ngFor="let p of parametres" [value]="p.type">{{ p.type }}</option>
+  </select>
+
+  <label>Valeur</label>
+  <input type="number" [(ngModel)]="newMesure.valeur" placeholder="Valeur" />
+
+  <label>Date (optionnelle)</label>
+  <input type="datetime-local" [(ngModel)]="newMesure.dateMesure" />
+
+  <button (click)="addMesure()">Ajouter</button>
+</div>
+
+<hr>
+
+<!-- Table des stats -->
+<table>
+  <thead>
+    <tr>
+      <th>Type Paramètre</th>
+      <th>Dernière Valeur</th>
+      <th>Moyenne</th>
+      <th>Seuil Min</th>
+      <th>Seuil Max</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of stats | keyvalue">
+      <ng-container *ngIf="item.value as stat">
+        <td>{{ item.key }}</td>
+        <td>{{ stat.derniere }}</td>
+        <td>{{ stat.moyenne | number:'1.1-2' }}</td>
+        <td>{{ stat.seuilMin }}</td>
+        <td>{{ stat.seuilMax }}</td>
+      </ng-container>
+    </tr>
+  </tbody>
+</table>

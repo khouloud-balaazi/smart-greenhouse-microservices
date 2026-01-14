@@ -1,0 +1,36 @@
+<h2>Paramètres Environnement</h2>
+
+<div class="form">
+  <label>Type de paramètre</label>
+  <select [(ngModel)]="newParam.type">
+    <option value="">-- Sélectionner --</option>
+    <option *ngFor="let t of typesDisponibles" [value]="t">{{ t }}</option>
+  </select>
+
+  <label>Seuil Min</label>
+  <input type="number" [(ngModel)]="newParam.seuilMin">
+
+  <label>Seuil Max</label>
+  <input type="number" [(ngModel)]="newParam.seuilMax">
+
+  <button (click)="saveParametre()" [disabled]="typesDisponibles.length === 0">Enregistrer</button>
+</div>
+
+<hr>
+
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Seuil Min</th>
+      <th>Seuil Max</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let p of parametres">
+      <td>{{ p.type }}</td>
+      <td>{{ p.seuilMin }}</td>
+      <td>{{ p.seuilMax }}</td>
+    </tr>
+  </tbody>
+</table>

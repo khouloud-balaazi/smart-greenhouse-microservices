@@ -1,0 +1,38 @@
+<div class="d-flex">
+
+  <nav class="sidebar p-3">
+    <h5 class="text-white">🌱 Smart Greenhouse</h5>
+    <ul class="nav flex-column mt-4">
+      <li class="nav-item">
+        <a routerLink="/dashboard" class="nav-link">
+          <i class="bi bi-speedometer2"></i> Dashboard
+        </a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/parametres" class="nav-link">
+          <i class="bi bi-sliders"></i> Paramètres
+        </a>
+      </li>
+       <li class="nav-item">
+        <a routerLink="/mesures" class="nav-link">
+         <i class="bi bi-lightning-charge"></i>Mesures
+        </a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/equipements" class="nav-link">
+          <i class="bi bi-cpu"></i> Équipements
+        </a>
+      </li>
+        <li class="nav-item">
+        <a routerLink="/actions" class="nav-link">
+          <i class="bi bi-play-circle"></i> Actions
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <main class="content p-4">
+    <router-outlet></router-outlet>
+  </main>
+
+</div>

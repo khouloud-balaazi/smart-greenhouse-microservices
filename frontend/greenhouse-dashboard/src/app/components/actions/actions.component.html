@@ -1,0 +1,51 @@
+<h2>Actions de Contrôle</h2>
+
+<div class="form">
+  <label>Équipement</label>
+  <select [(ngModel)]="newAction.equipementId">
+    <option value="">-- Sélectionner --</option>
+    <option *ngFor="let e of equipements" [value]="e.id">
+      {{ e.type }} ({{ e.etat }})
+    </option>
+  </select>
+
+  <label>Type Action</label>
+  <select [(ngModel)]="newAction.typeAction">
+    <option value="">-- Sélectionner --</option>
+    <option *ngFor="let t of actionTypes" [value]="t">{{ t }}</option>
+  </select>
+
+  <label>Paramètre</label>
+  <select [(ngModel)]="newAction.parametreId">
+    <option value="">-- Sélectionner --</option>
+    <option *ngFor="let p of parametres" [value]="p.id">
+      {{ p.type }} (Min: {{ p.seuilMin }}, Max: {{ p.seuilMax }})
+    </option>
+  </select>
+
+  <button (click)="addAction()">Ajouter</button>
+</div>
+
+<hr>
+
+<table>
+  <thead>
+    <tr>
+      <th>Équipement</th>
+      <th>Type Action</th>
+      <th>Paramètre</th>
+      <th>Date Execution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let a of actions">
+      <td>{{ a.equipement.type }} ({{ a.equipement.etat }})</td>
+
+      <td>{{ a.typeAction }}</td>
+     <td>{{ getParametreType(a) }}</td>
+
+
+      <td>{{ a.dateExecution | date:'short' }}</td>
+    </tr>
+  </tbody>
+</table>
