@@ -14,10 +14,12 @@ import com.smartgreenhouse.event.MeasurementEventPublisher;
 import com.smartgreenhouse.repositories.MesureRepository;
 import com.smartgreenhouse.repositories.ParametreRepository;
 
-
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class MesureService {
 
@@ -30,9 +32,11 @@ public class MesureService {
         return mesureRepository.findAll();
     }
 
+    @Transactional
     public Mesure enregistrerMesure(ParametreType type, Double valeur) {
+
         Parametre parametre = parametreRepository.findByType(type)
-                .orElseThrow(() -> new IllegalArgumentException("Parametre not found"));
+                .orElseThrow(() -> new IllegalArgumentException("Paramètre introuvable"));
 
         Mesure mesure = new Mesure();
         mesure.setParametre(parametre);
@@ -41,10 +45,16 @@ public class MesureService {
 
         Mesure saved = mesureRepository.save(mesure);
 
-        boolean alert = valeur < parametre.getSeuilMin()
-                     || valeur > parametre.getSeuilMax();
+        boolean alert =
+                valeur < parametre.getSeuilMin()
+             || valeur > parametre.getSeuilMax();
 
-        eventPublisher.publish(saved, alert);
+        // RabbitMQ = best effort (ne doit jamais casser l'API)
+        try {
+            eventPublisher.publish(saved, alert);
+        } catch (Exception e) {
+            log.error("RabbitMQ indisponible, événement ignoré", e);
+        }
 
         return saved;
     }

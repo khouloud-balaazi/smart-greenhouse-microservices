@@ -27,7 +27,7 @@ public class Parametre {
     private Long id;
 	
    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+   @Column(nullable = false, unique = true)
     private ParametreType type;
 
     @Column(nullable = false)
