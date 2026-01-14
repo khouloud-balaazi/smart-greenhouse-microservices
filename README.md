@@ -1,129 +1,180 @@
-# Smart Greenhouse Management System
+README.md — Smart Greenhouse Microservices
+🌱 Smart Greenhouse – Architecture Microservices
 
-## 📌 Description
-This project is a microservices-based web application for managing connected greenhouses.
-It monitors environmental conditions and automatically controls greenhouse equipment.
+Ce projet implémente une application Smart Greenhouse basée sur une architecture microservices permettant de :
 
-The application follows a Spring Boot microservices architecture with Angular front-end,
-ensuring scalability, fault tolerance, and centralized configuration.
+surveiller des paramètres environnementaux (température, humidité, luminosité),
 
----
+déclencher automatiquement des actions sur des équipements (ventilateur, pompe, chauffage),
 
-## 🧱 Architecture
-- Microservices architecture (Spring Boot)
-- Service Discovery with Eureka Server
-- API Gateway
-- Centralized Configuration Server
-- Synchronous REST communication
-- Asynchronous communication using RabbitMQ
-- Angular Front-end
-- Docker containerization
-- Kubernetes deployment (bonus)
+communiquer de manière asynchrone via RabbitMQ.
 
----
+🧱 Architecture Générale
 
-## 🛠 Technologies
-- Java 17
-- Spring Boot
-- Spring Cloud
-- Angular
-- RabbitMQ
-- Docker & Docker Compose
-- Kubernetes (optional)
+L’architecture repose sur :
 
----
+Spring Boot (Back-end)
 
-## 📂 Repository Structure
-- backend/: Spring Boot microservices
-- frontend/: Angular application
-- docker/: Docker and Docker Compose files
-- kubernetes/: Kubernetes manifests
-- docs/: Architecture and documentation
+Angular (Front-end)
 
----
+RabbitMQ (Event-driven communication)
 
-## 🚧 Project Status
-In progress – Architecture and core microservices setup.
-## composants
-| Composant           | Eureka Client | Config Client |
-| ------------------- | ------------- | ------------- |
-| Eureka Server       | ❌             | ❌             |
-| Config Server       | ✅             | ❌             |
-| Gateway             | ✅             | ✅             |
-| Environment Service | ✅             | ✅             |
-| Control Service     | ✅             | ✅             |
+MySQL (Base de données par microservice)
+
+Docker & Docker Compose
+
+Eureka Server (Service Discovery)
+
+Spring Cloud Gateway
+
+Config Server
+
+Kubernetes manifests (préparation déploiement)
+
+🧩 Microservices
+🔹 1. Config Server
+
+Centralise les fichiers de configuration (application.properties)
+
+Facilite la gestion multi-environnements (local / docker)
+
+🔹 2. Eureka Server
+
+Registre tous les microservices
+
+Permet la découverte dynamique des services
+
+🔹 3. Gateway Service
+
+Point d’entrée unique de l’application
+
+Redirige les requêtes vers les microservices
+
+🔹 4. Environment Service
+
+Responsabilités :
+
+Gestion des paramètres (TEMPÉRATURE, HUMIDITÉ, etc.)
+
+Gestion des mesures
+
+Publication des événements RabbitMQ (MeasurementEvent)
+
+➡️ À chaque nouvelle mesure, un événement est envoyé vers RabbitMQ.
+
+🔹 5. Controle Service
+
+Responsabilités :
+
+Gestion des équipements (VENTILATEUR, POMPE, CHAUFFAGE)
+
+Gestion des actions
+
+Consommation des événements RabbitMQ
+
+Création automatique d’actions si un seuil est dépassé
+
+📌 Exemple :
+
+Si la température dépasse le seuil max → Action DEMARRER VENTILATEUR
+
+🔁 Communication Asynchrone (RabbitMQ)
+📤 Publisher
+
+environment-service publie les événements de mesure
+
+📥 Consumer
+
+controle-service consomme les événements
+
+Analyse les seuils
+
+Déclenche automatiquement des actions
+
+✔️ Avantages :
+
+Services découplés
+
+Scalabilité
+
+Fiabilité
+
+🗃️ Bases de Données
+
+Chaque microservice possède sa base MySQL dédiée :
+
+environment_db
+
+control_db
+
+➡️ Isolation des données (bonne pratique microservices)
+
+🐳 Docker
+
+Le projet est entièrement dockerisé.
+
+Lancer l’application :
+cd docker
+docker-compose up --build
 
 
-🟢 Microservice 1 : Environment Service
-1️⃣ Objectifs du microservice (liés à l’énoncé du prof)
-🎯 Objectif principal
+Services exposés :
 
-Le microservice Environment est responsable de la gestion des paramètres environnementaux d’une serre connectée et de la collecte des mesures en temps réel.
+Gateway : http://localhost:8085
 
-📌 Lien direct avec l’énoncé
+Eureka : http://localhost:8761
 
-Microservice Environnement : Paramètre, Mesure
-Contrôle automatique du climat de la serre
-Communication synchrone et asynchrone
+RabbitMQ UI : http://localhost:15672
 
-Ce microservice permet de :
+Environment Service : http://localhost:8089
 
-Définir les paramètres climatiques (température, humidité, luminosité)
+Controle Service : http://localhost:8087
 
-Enregistrer les mesures captées par les capteurs
+📊 Frontend (Angular)
 
-Détecter les dépassements de seuils
+Le dashboard permet :
 
-Publier des événements RabbitMQ vers le microservice Contrôle
+Visualisation des paramètres
 
-Exposer des API REST consommées par :
+Visualisation des équipements
 
-API Gateway
+Affichage des mesures
 
-Microservice Contrôle (synchrone)
-2️⃣ Responsabilités fonctionnelles
-📦 Entités métier
-Paramètre
+Suivi des actions automatiques
 
-id
+Alertes en temps réel
 
-type (TEMPERATURE, HUMIDITY, LUMINOSITY)
+☸️ Kubernetes (optionnel)
 
-seuilMin
+Des fichiers YAML sont fournis pour :
 
-seuilMax
+config-server
 
-Mesure
+eureka-server
 
-id
+gateway-service
 
-parametreId
+environment-service
 
-valeur
+controle-service
 
-dateMesure
+rabbitmq
 
-🔁 Rôle dans l’architecture globale
-Interaction	Type
-Envoi des mesures vers Contrôle	Asynchrone (RabbitMQ)
-Fourniture des dernières mesures	Synchrone (REST)
-Découverte de services	Eureka
-Configuration	Config Server
-Accès externe	API Gateway
-3️⃣ Dashboard à créer (pour le Front / démo)
+➡️ Préparation au déploiement cloud
 
-Même si Angular viendra plus tard, le service doit être prêt.
+🎯 Objectif du Projet
 
-📊 Données exposées au dashboard :
+Appliquer les bonnes pratiques microservices
 
-Liste des paramètres configurés
+Mettre en place une architecture event-driven
 
-Dernières mesures par type
+Comprendre la communication asynchrone
 
-État des seuils :
+Automatiser des décisions métier
 
-✅ Normal
+Maîtriser Docker & Spring Cloud
 
-⚠️ Alerte seuil dépassé
+👩‍💻 Réalisé par
 
-👉 Le backend expose des endpoints REST clairs, consommables par Angular.
+Khouloud Balaazi
+Projet académique – Mini Projet Microservices
