@@ -1,6 +1,7 @@
 package com.smartgreenhouse.controllers;
 
 import com.smartgreenhouse.entities.Equipement;
+import com.smartgreenhouse.enums.EtatEquipement;
 import com.smartgreenhouse.services.EquipementService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,7 @@ public class EquipementController {
     @PutMapping("/{id}")
     public ResponseEntity<Equipement> updateEquipementEtat(
             @PathVariable Long id,
-            @RequestParam String etat
+            @RequestParam EtatEquipement etat
     ) {
         Equipement equipement = equipementService.getEquipementById(id);
         equipement.setEtat(etat);

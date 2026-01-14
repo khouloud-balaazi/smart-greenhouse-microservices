@@ -4,6 +4,8 @@ import com.smartgreenhouse.entities.Action;
 import com.smartgreenhouse.entities.ParametreDTO;
 import com.smartgreenhouse.feignclients.EnvironnementClient;
 import com.smartgreenhouse.repositories.ActionRepository;
+
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,13 +19,8 @@ public class ActionService {
     private final ActionRepository actionRepository;
     private final EnvironnementClient environnementClient;
 
+    @Transactional
     public Action saveAction(Action action) {
-        // Récupérer paramètre via Feign pour garder action DTO synchronisée
-        if (action.getParametreId() != null) {
-            ParametreDTO param = environnementClient.getParametreById(action.getParametreId());
-            action.setParametre(param); // @Transient
-        }
-
         action.setDateExecution(LocalDateTime.now());
         return actionRepository.save(action);
     }
